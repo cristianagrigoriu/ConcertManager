@@ -1,0 +1,38 @@
+﻿<div id="body">
+    <ul id="bands"></ul>
+</div>
+
+<form id="saveBandForm" method="post">
+    <h3>Create a new Band</h3>
+    <p>
+        <label for="contactId">Band Id:</label>
+        <input type="text" name="Id" />
+    </p>
+    <p>
+        <label for="contactName">Band Name:</label>
+        <input type="text" name="Name" />
+    </p>
+    <input type="button" id="saveBand" value="Save" />
+</form>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $.getJSON('/', function (bandsJsonPayload) {
+                $(contactsJsonPayload).each(function (i, item) {
+                    $('#bands').append('<li>' + item.Name + '</li>');
+                });
+            });
+        });
+
+        $('#saveBand').click(function () {
+            $.post("api/band",
+                  $("#saveBandForm").serialize(),
+                  function (value) {
+                      $('#bands').append('<li>' + value.Name + '</li>');
+                  },
+                  "json"
+            );
+        });
+    </script>
+}
